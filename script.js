@@ -2,6 +2,13 @@ const introScreen = document.querySelector("#introScreen");
 const invitation = document.querySelector("#invitation");
 const openInvite = document.querySelector("#openInvite");
 const flowerRain = document.querySelector(".flower-rain");
+const countdownCards = {
+  days: document.querySelector("#days").closest("div"),
+  hours: document.querySelector("#hours").closest("div"),
+  minutes: document.querySelector("#minutes").closest("div"),
+  seconds: document.querySelector("#seconds").closest("div")
+};
+const countdownValues = {};
 
 const ceremonyStart = new Date("2026-05-25T11:56:00+05:30");
 const ceremonyEnd = new Date("2026-05-25T12:46:00+05:30");
@@ -40,12 +47,13 @@ function createFlowers() {
 }
 
 function revealInvitation() {
+  introScreen.classList.add("is-opening");
   introScreen.classList.add("is-open");
   invitation.classList.add("is-visible");
   invitation.setAttribute("aria-hidden", "false");
   window.setTimeout(() => {
     introScreen.setAttribute("hidden", "");
-  }, 650);
+  }, 900);
 }
 
 function formatDateForCalendar(date) {
@@ -93,6 +101,22 @@ function openLocation(query) {
   window.open(url, "_blank", "noopener,noreferrer");
 }
 
+function setCountdownValue(unit, value) {
+  const paddedValue = String(value).padStart(2, "0");
+  const element = document.querySelector(`#${unit}`);
+  const card = countdownCards[unit];
+
+  if (countdownValues[unit] === paddedValue) {
+    return;
+  }
+
+  countdownValues[unit] = paddedValue;
+  element.textContent = paddedValue;
+  card.classList.remove("is-flipping");
+  void card.offsetWidth;
+  card.classList.add("is-flipping");
+}
+
 function updateCountdown() {
   const now = new Date();
   const remaining = Math.max(ceremonyStart.getTime() - now.getTime(), 0);
@@ -102,10 +126,10 @@ function updateCountdown() {
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
 
-  document.querySelector("#days").textContent = days;
-  document.querySelector("#hours").textContent = hours;
-  document.querySelector("#minutes").textContent = minutes;
-  document.querySelector("#seconds").textContent = seconds;
+  setCountdownValue("days", days);
+  setCountdownValue("hours", hours);
+  setCountdownValue("minutes", minutes);
+  setCountdownValue("seconds", seconds);
 }
 
 openInvite.addEventListener("click", revealInvitation);
