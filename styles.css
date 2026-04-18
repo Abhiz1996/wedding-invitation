@@ -708,10 +708,15 @@ a {
     display: none;
   }
 
+  .hero-section {
+    min-height: auto;
+  }
+
   .hero-panel {
-    min-height: 46svh;
+    min-height: auto;
     text-align: center;
     justify-items: center;
+    padding-bottom: 18px;
   }
 
   .lead {
@@ -789,12 +794,16 @@ a {
   }
 
   .hero-panel {
-    min-height: 42svh;
-    padding: 26px 22px 28px;
+    min-height: auto;
+    padding: 22px 22px 12px;
   }
 
   .section-block {
-    padding-top: 34px;
+    padding-top: 26px;
+  }
+
+  .section-block.ceremony {
+    padding-top: 12px;
   }
 
   .countdown {
